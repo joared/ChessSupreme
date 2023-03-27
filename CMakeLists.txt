@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 3.10)
 # Set the compiler to g++
 set(CMAKE_CXX_COMPILER "g++")
 
-# Set the C++ standard to C++17. Necessary flags are automatically set to the g++ compiler
-set(CMAKE_CXX_STANDARD 17)
+# Set the C++ standard to C++11. Necessary flags are automatically set to the g++ compiler.
+set(CMAKE_CXX_STANDARD 11)
 
 # Set the flags for the compiler
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
@@ -19,8 +19,18 @@ set(SRC_MAIN main.cpp)
 # Define the path to the source directory
 set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-# Add the main source file to the executable
-add_executable(ChessSupreme ${SRC_DIR}/${SRC_MAIN} ${SRC_DIR}/board.cpp ${SRC_DIR}/piece.cpp ${SRC_DIR}/move.cpp ${SRC_DIR}/utility.cpp)
+# The source files needed to compile the project executable
+set(SOURCES 
+    ${SRC_DIR}/${SRC_MAIN} 
+    ${SRC_DIR}/board.cpp 
+    ${SRC_DIR}/bitboard.cpp 
+    ${SRC_DIR}/piece.cpp 
+    ${SRC_DIR}/move.cpp 
+    ${SRC_DIR}/utility.cpp
+)
+
+# Add the executable
+add_executable(ChessSupreme ${SOURCES})
 
 # Add include folder as a private include directory for ChessSupreme
 target_include_directories(ChessSupreme

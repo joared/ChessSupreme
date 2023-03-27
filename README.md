@@ -17,3 +17,7 @@ Ctrl + Shift + P -> CMake: build
 ## Run
 1. CD into ChessSupreme/build
 2. In terminal: ./ChessSupreme
+
+## Some references
+https://www.chessprogramming.org  
+https://alexanderameye.github.io/notes/chess-engine/
