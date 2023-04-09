@@ -24,5 +24,10 @@ https://alexanderameye.github.io/notes/chess-engine/
 https://github.com/official-stockfish/Stockfish
 
 ## Google test
-sudo apt-get install libgtest-dev 
+### Install dependencies
+sudo apt-get install libgtest-dev  
 https://www.eriksmistad.no/getting-started-with-google-test-on-ubuntu/ 
+### Create a new test.cpp
+- Add .cpp test file in test/
+- Add the new .cpp to TESTS in CMakeLists.txt
+- Rebuild the project and run SupremeTests
