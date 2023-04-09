@@ -20,4 +20,9 @@ Ctrl + Shift + P -> CMake: build
 
 ## Some references
 https://www.chessprogramming.org  
-https://alexanderameye.github.io/notes/chess-engine/
+https://alexanderameye.github.io/notes/chess-engine/ 
+https://github.com/official-stockfish/Stockfish
+
+## Google test
+sudo apt-get install libgtest-dev 
+https://www.eriksmistad.no/getting-started-with-google-test-on-ubuntu/ 

@@ -1,15 +1,38 @@
-#include "board.h"
 #include "utility.h"
 #include "move.h"
 #include "piece.h"
 
-/* Not used at the moment */
-// #include "engine.h" 
-// #include "search.h"
+#include "bitboard.h"
 
 #include <iostream>
+#include <bitset>
+#include <math.h>
 
 int main() {
   std::cout << "Welcome to the ChessSupreme!" << std::endl;
+
+  while (true)
+  {
+    std::string shiftStr;
+    uint64_t shift = 0;
+    std::cin >> shiftStr;
+    if (shiftStr == "q")
+    {
+      break;
+    }
+    try
+    {
+      shift = std::stoul(shiftStr.c_str(), nullptr, 10);
+    }
+    catch (std::exception)
+    {
+      std::cout << "Something went wrong..." << std::endl;  
+    }
+    // <takethis> <</>> <shift it this way, this much>
+    std::cout << Bitboards::asBitset(shift<<1) << std::endl;
+    std::cout << Bitboards::asBitset(shift>>1) << std::endl;
+    std::cout << Bitboards::asBitset(1<<shift) << std::endl;
+    std::cout << Bitboards::asBitset(1>>shift) << std::endl;
+  }
   return 0;
 }
