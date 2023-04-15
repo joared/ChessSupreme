@@ -29,10 +29,11 @@ int main() {
       std::cout << "Something went wrong..." << std::endl;  
     }
     // <takethis> <</>> <shift it this way, this much>
-    std::cout << Bitboards::asBitset(shift<<1) << std::endl;
-    std::cout << Bitboards::asBitset(shift>>1) << std::endl;
-    std::cout << Bitboards::asBitset(1<<shift) << std::endl;
-    std::cout << Bitboards::asBitset(1>>shift) << std::endl;
+    std::cout << Bitboard(shift<<1).prettyBitset() << std::endl;
+    std::cout << Bitboard(shift>>1).prettyBitset() << std::endl;
+    std::cout << Bitboard(1<<shift).prettyBitset() << std::endl;
+    std::cout << Bitboard(1>>shift).prettyBitset() << std::endl;
+    std::cout << Bitboard(shift).prettyBoard() << std::endl;
   }
   return 0;
 }

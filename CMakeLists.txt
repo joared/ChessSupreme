@@ -46,6 +46,7 @@ if(BUILD_TESTS)
     set(TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/test)
     set(TESTS 
         ${TEST_DIR}/${TEST_MAIN}
+        ${SRC_DIR}/bitboard.cpp
         ${TEST_DIR}/bitboard_test.cpp
         )
     # Add a test executable for the project
