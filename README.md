@@ -1,27 +1,23 @@
 # ChessSupreme
 
-## Setup Visual studio code project
-Ctrl + P -> CMake: Configure.
+## Configure and build
+Ctrl + P -> CMake: Configure.  
 Should be done when modifying CMakeLists.txt.
 
-## Build the project
-
 ### Using cmake
-1. Create a "build" directory
+1. Create a "build" directory in the root project folder
 2. CD into the "build" directory
-3. In terminal: cmake ../
+3. cmake ..
+4. cmake --build .
 
 ### Using Visual Studio Code
-Ctrl + Shift + P -> CMake: build
+- CMake: Configure (saving CMakeLists.txt will triggers this automatically)
+- CMake: build
 
 ## Run
-1. CD into ChessSupreme/build
-2. In terminal: ./ChessSupreme
-
-## Some references
-https://www.chessprogramming.org  
-https://alexanderameye.github.io/notes/chess-engine/ 
-https://github.com/official-stockfish/Stockfish
+**ChessSupremeConsoleApplication**: runs interactive console application where the user gives input using the keyboard.  
+**SupremeTests**: runs unittests. To disable performance tests, set the RUN_OPTIONAL_PERFORMANCE_TEST option to **OFF** in CMakeLists.txt.  
+**TestBitshiftInteractive, TestPseudoAttacksInteractive**: interactive console applications used for debugging.
 
 ## Google test
 ### Install dependencies
@@ -31,3 +27,12 @@ https://www.eriksmistad.no/getting-started-with-google-test-on-ubuntu/
 - Add .cpp test file in test/
 - Add the new .cpp to TESTS in CMakeLists.txt
 - Rebuild the project and run SupremeTests
+
+## Class diagram
+Drawio link: https://app.diagrams.net/#G1Jd-xLiLq3nyMKETKuKr7NV3GBQV7sZi  
+<img src="ChessSupreme_class_diagram.png" title="ChessSupreme class diagram" alt="ChessSupreme class diagram" width="500"/>
+
+## Some references
+https://www.chessprogramming.org  
+https://alexanderameye.github.io/notes/chess-engine/ 
+https://github.com/official-stockfish/Stockfish

@@ -44,7 +44,10 @@ const std::string Bitboard::prettyBoard()
       Bitboard squareBB(1ULL<<square);
       s += m_bb & squareBB ? " X |" : "   |";
     }
-    s += "\n  +---+---+---+---+---+---+---+---+\n";
+    s += " " + std::to_string(r+1) + "\n";
+    s += "  +---+---+---+---+---+---+---+---+\n";
   }
+  s += "    a   b   c   d   e   f   g   h\n";
+
   return s;
 }
