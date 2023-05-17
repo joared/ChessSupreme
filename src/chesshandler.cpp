@@ -2,12 +2,14 @@
 
 ChessHandler::ChessHandler()
 {
+    m_validMoves.reserve(256);
     m_position = Position::standardPosition();
     generateMoves();
 }
 
 ChessHandler::ChessHandler(std::string fen)
 {
+    m_validMoves.reserve(256);
     m_position = Position::fromFEN(fen);
     generateMoves();
 }
@@ -103,7 +105,7 @@ void ChessHandler::undo(bool generateNewMoves)
     }
 }
 
-std::vector<Move> &ChessHandler::generateMoves()
+const std::vector<Move>& ChessHandler::generateMoves()
 {
     m_validMoves.clear();
     m_validMoves = m_generator.generateMoves(m_position, m_validMoves);

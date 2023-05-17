@@ -7,11 +7,13 @@
 class MoveGenerator
 {
     public:
+        MoveGenerator();
         std::vector<Move> generateMoves(const Position& p, std::vector<Move>& moves, bool validateMoves=true);
     private:
         template <PieceType pt>
         std::vector<Move>& generateMoves(const Position& p, std::vector<Move>& moves, bool validateMoves=true);
         std::vector<Move>& generatePawnMoves(const Position& p, std::vector<Move>& moves, bool validateMoves=true);
+        std::vector<Move> m_tempMoves;
 };
 
 #endif /* MOVEGEN_H */

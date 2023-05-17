@@ -15,8 +15,13 @@ std::vector<Move> MoveGenerator::generateMoves(const Position& p, std::vector<Mo
     return moves;
 }
 
+MoveGenerator::MoveGenerator()
+{
+    m_tempMoves.reserve(256);
+}
+
 template <PieceType pt>
-std::vector<Move>& MoveGenerator::generateMoves(const Position& p, std::vector<Move>& moves, bool validateMoves)
+std::vector<Move> &MoveGenerator::generateMoves(const Position &p, std::vector<Move> &moves, bool validateMoves)
 {
     Bitboard piecesBB = p.pieceTypeBB(p.toMove(), pt);
 
@@ -37,15 +42,15 @@ std::vector<Move>& MoveGenerator::generateMoves(const Position& p, std::vector<M
                 Position tempPos = p;
                 
                 tempPos.makeMove(candidateMove);
-                std::vector<Move> nextMoves;
-                generateMoves(tempPos, nextMoves, false);
+                m_tempMoves.clear();
+                auto tempMoves = generateMoves(tempPos, m_tempMoves, false);
                 
                 // "isInCheck" ?
                 Bitboard kingSquareBB = tempPos.pieceTypeBB(p.toMove(), KING);
                 Square kingSquare = kingSquareBB.popLsb();
                 assert(kingSquareBB == 0); // There should only be one king
                 bool isInCheck = false;
-                for ( Move m : nextMoves )
+                for ( Move m : tempMoves )
                 {
                     if (m.to == kingSquare)
                     {

@@ -23,7 +23,7 @@ class ChessHandler
         bool makeMove(Move m, bool generateNewMoves=true);
         void undo(bool generateNewMoves=true);
 
-        std::vector<Move>& generateMoves();
+        const std::vector<Move>& generateMoves();
 
         // Performance testing
         uint64_t perft(int depth);
