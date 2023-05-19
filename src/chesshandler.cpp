@@ -73,7 +73,6 @@ bool ChessHandler::isValidMove(Move m)
 
 bool ChessHandler::makeMove(Move m, bool generateNewMoves)
 {
-    if (!isValidMove(m)) { return false; }
     // copy position into history
     Position tempPos = m_position;
     m_history.push_back(tempPos);

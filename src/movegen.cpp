@@ -2,6 +2,11 @@
 #include "piece.h"
 #include <iostream> // for debugging
 
+MoveGenerator::MoveGenerator()
+{
+    m_tempMoves.reserve(256);
+}
+
 std::vector<Move> MoveGenerator::generateMoves(const Position& p, std::vector<Move>& moves, bool validateMoves)
 {
     moves = generateMoves<KING>(p, moves, validateMoves);
@@ -13,11 +18,6 @@ std::vector<Move> MoveGenerator::generateMoves(const Position& p, std::vector<Mo
     //moves = generatePawnMoves(p, moves, validateMoves); // TODO
 
     return moves;
-}
-
-MoveGenerator::MoveGenerator()
-{
-    m_tempMoves.reserve(256);
 }
 
 template <PieceType pt>

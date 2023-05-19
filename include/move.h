@@ -2,9 +2,7 @@
 #define MOVE_H
 
 #include "bitboard.h"
-
-// Forward declaration
-struct Piece;
+#include "piece.h"
 
 struct Move
 {
@@ -15,7 +13,7 @@ struct Move
 
     Square from;
     Square to;
-    Piece* promotionPiece;
+    Piece promotionPiece;
 };
 
 #endif /* MOVE_H */

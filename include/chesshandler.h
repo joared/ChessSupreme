@@ -4,8 +4,10 @@
 #include "position.h"
 #include "movegen.h"
 #include "bitboard.h"
+#include "move.h"
 
 #include <vector>
+#include <memory>
 
 class ChessHandler
 {
@@ -33,5 +35,7 @@ class ChessHandler
         MoveGenerator m_generator;
         std::vector<Position> m_history;
 };
+
+typedef std::shared_ptr<ChessHandler> ChessHandlerPtr;
 
 #endif /* CHESSHANDLER_H */

@@ -2,7 +2,6 @@
 #define PIECE_H
 
 #include "bitboard.h"
-#include "move.h"
 
 class Position; // Forward declaration
 

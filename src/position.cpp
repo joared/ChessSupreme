@@ -118,6 +118,18 @@ Position Position::fromFEN(std::string fen)
     // TODO: Enpassant square
     auto enPassantSquare = tokens[3];
     assert(enPassantSquare.length() >= 1 && enPassantSquare.length() <= 2);
+    switch (enPassantSquare.length())
+    {
+        case 1:
+            assert(enPassantSquare == "-");
+            position.state.enPassantSquare = Square(-1);
+            break;
+        case 2:
+            position.state.enPassantSquare = squareFromStr(enPassantSquare);
+            break;
+        default:
+            throw std::runtime_error("Invalid FEN en passant square: " + enPassantSquare);
+    }
 
     // TODO: Half move clock
     auto nHalfMoves = tokens[4];
@@ -166,8 +178,14 @@ std::string Position::toFEN() const
     // TODO: Castling rights
     ss << "- ";
 
-    // TODO: Enpassant square
-    ss << "- ";
+    if (state.enPassantSquare != -1)
+    {
+        ss << squareToStr(state.enPassantSquare) + " ";
+    }
+    else 
+    {
+        ss << "- ";
+    }
 
     // TODO: Half move clock
     ss << "0 ";

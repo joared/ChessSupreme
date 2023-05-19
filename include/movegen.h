@@ -3,6 +3,7 @@
 
 #include "position.h"
 #include "piece.h"
+#include "move.h"
 
 class MoveGenerator
 {

@@ -3,6 +3,7 @@
 
 #include "bitboard.h"
 #include "piece.h"
+#include "move.h"
 
 class Position
 {
@@ -14,8 +15,8 @@ class Position
     // moves.
     struct State
     {
-        int rule50count;
-        Square enPassantSquare;
+        int rule50count = 0;
+        Square enPassantSquare = -1;
     };
 
     public:
