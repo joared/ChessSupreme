@@ -71,31 +71,24 @@ bool ChessHandler::isValidMove(Move m)
     return false;
 }
 
-bool ChessHandler::makeMove(Move m, bool generateNewMoves)
+void ChessHandler::makeMove(Move m, bool generateNewMoves)
 {
-    // copy position into history
-    Position tempPos = m_position;
-    m_history.push_back(tempPos);
-
-    bool ok = m_position.makeMove(m);
-    if (ok)
+    m_history.push_back(m);
+    m_position.makeMove(m);
+    
+    if (generateNewMoves)
     {
-        if (generateNewMoves)
-        {
-            generateMoves();
-        }
+        generateMoves();
     }
-    return ok;
-
 }
 
 void ChessHandler::undo(bool generateNewMoves)
 {
     if (m_history.size() > 0)
     {
-        Position prevPos = m_history.back();
+        Move& prevMove = m_history.back();
         m_history.pop_back();
-        m_position = prevPos;
+        m_position.undoMove(prevMove);
 
         if (generateNewMoves)
         {
@@ -121,12 +114,11 @@ uint64_t ChessHandler::perft(int depth)
     int nodes = 0;
     auto moves = generateMoves();
 
-    for (Move m : moves)
+    for (Move& m : moves)
     {
         makeMove(m, false);
         nodes += perft(depth-1);
         undo(false);
-        validMoves() = moves;
     }
     return nodes;
 }

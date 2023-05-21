@@ -40,7 +40,8 @@ class Position
         // NOTE: Doesn't work with inline, could be the compiler
         void placePiece(Piece p, Square s);
         void removePiece(Square s);
-        bool makeMove(Move m);
+        void makeMove(const Move& m);
+        void undoMove(const Move& m);
 
         // Methods for retrieving piece placement information
         Piece getPiece(Square s) const;

@@ -255,19 +255,32 @@ void Position::removePiece(Square s)
     // m_piecesBB[p.color][p.pieceType] |= -squareBB(s);
 }
 
-bool Position::makeMove(Move m)
+void Position::makeMove(const Move& m)
 {
-    m_toMove = Color(m_toMove+1);
-    if (m_toMove == COLOR_N)
-    {
-        m_toMove = Color(0);
-    }
+    // m_toMove = Color(m_toMove+1);
+    // if (m_toMove == COLOR_N)
+    // {
+    //     m_toMove = Color(0);
+    // }
+    m_toMove = (m_toMove == WHITE) ? BLACK : WHITE;
     Piece piece = getPiece(m.from);
     assert(piece.pieceType != PIECE_INVALID);
     removePiece(m.from);
     placePiece(piece, m.to);
+}
 
-    return true;
+void Position::undoMove(const Move& m)
+{
+    // m_toMove = Color(m_toMove+1);
+    // if (m_toMove == COLOR_N)
+    // {
+    //     m_toMove = Color(0);
+    // }
+    m_toMove = (m_toMove == WHITE) ? BLACK : WHITE;
+    Piece piece = getPiece(m.to);
+    removePiece(m.to);
+    placePiece(m.capturedPiece, m.to);
+    placePiece(piece, m.from);
 }
 
 Piece Position::getPiece(Square s) const

@@ -56,7 +56,21 @@ TEST(BitboardTest, BitwiseOperators)
 TEST(BitboardTest, BitwiseNot)
 {
     ASSERT_EQ(-Bitboard(12342), Bitboard(-12342));
-    std::cout << -Bitboard(12342) << std::endl;
+    //std::cout << -Bitboard(12342) << std::endl;
+};
+
+TEST(BitboardTest, Shift)
+{
+    Bitboard b = squareBB(34);
+    // std::cout << b.prettyBoard() << std::endl;
+    
+    // auto b1 = b.shift(NORTH);
+    // std::cout << b1.prettyBoard() << std::endl;
+    // auto b2 = b.shift(SOUTH);
+    // std::cout << b2.prettyBoard() << std::endl;
+    // Bitboard temp = 0x0101010101010101 << 7;
+    // std::cout << temp.prettyBoard() << std::endl;
+    
 };
 
 TEST(BitboardTest, PrettyStrings)

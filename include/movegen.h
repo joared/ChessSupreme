@@ -9,11 +9,16 @@ class MoveGenerator
 {
     public:
         MoveGenerator();
-        std::vector<Move> generateMoves(const Position& p, std::vector<Move>& moves, bool validateMoves=true);
+        std::vector<Move>& generateMoves(Position& p, std::vector<Move>& moves, bool validateMoves=true);
     private:
         template <PieceType pt>
         std::vector<Move>& generateMoves(const Position& p, std::vector<Move>& moves, bool validateMoves=true);
         std::vector<Move>& generatePawnMoves(const Position& p, std::vector<Move>& moves, bool validateMoves=true);
+        
+        Bitboard generatePseudoMovesBB(const Position& p);
+        template <PieceType pt>
+        Bitboard generatePseudoMovesBB(const Position& p);
+        
         std::vector<Move> m_tempMoves;
 };
 

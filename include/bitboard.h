@@ -34,6 +34,18 @@ typedef int Square;
 class Bitboard;
 Bitboard squareBB(Square s);
 
+enum Direction : int 
+{
+  NORTH = 8,
+  EAST = 1,
+  SOUTH = -NORTH,
+  WEST = -EAST,
+  NORTH_WEST = NORTH+WEST,
+  NORTH_EAST = NORTH+EAST,
+  SOUTH_WEST = SOUTH+WEST,
+  SOUTH_EAST = SOUTH+EAST
+};
+
 class Bitboard
 {
 	public:
@@ -55,6 +67,11 @@ class Bitboard
 			return s; 
 		};
 
+		inline Bitboard shift(int d)
+		{
+			return (d > 0) ? (m_bb << d) : (m_bb >> -d);
+		}
+
 		// Standard operators to manipulate bitboard
 		inline Bitboard& operator+=(uint64_t b) { m_bb += b; return *this;};
 		inline Bitboard& operator-=(uint64_t b) { m_bb -= b; return *this;};
@@ -65,6 +82,16 @@ class Bitboard
 	private:
 		uint64_t m_bb;
 };
+
+/*
+Predefined ranks and files
+*/
+static Bitboard FILE_A = 0x0101010101010101;
+static Bitboard FILE_H = FILE_A << 7;
+static Bitboard RANK_1 = 0xFFULL;
+static Bitboard RANK_2 = 0xFFULL << 8;
+static Bitboard RANK_7 = 0xFFULL << 8*6;
+static Bitboard RANK_8 = 0xFFULL << 8*7;
 
 /*
 Square and square related functions.
@@ -118,18 +145,6 @@ inline Square squareFromStr(std::string str)
 
 	return validSquare(square) ? square : Square(-1);
 }
-
-enum Direction : int 
-{
-  NORTH = 8,
-  EAST = 1,
-  SOUTH = -NORTH,
-  WEST = -EAST,
-  NORTH_WEST = NORTH+WEST,
-  NORTH_EAST = NORTH+EAST,
-  SOUTH_WEST = SOUTH+WEST,
-  SOUTH_EAST = SOUTH+EAST
-};
 
 inline int distance(Square from, Square to)
 {

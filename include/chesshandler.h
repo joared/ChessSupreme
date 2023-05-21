@@ -22,7 +22,7 @@ class ChessHandler
         Bitboard validMoves(Square from);
         bool isValidFrom(Square from);
         bool isValidMove(Move m);
-        bool makeMove(Move m, bool generateNewMoves=true);
+        void makeMove(Move m, bool generateNewMoves=true);
         void undo(bool generateNewMoves=true);
 
         const std::vector<Move>& generateMoves();
@@ -33,7 +33,7 @@ class ChessHandler
         Position m_position;
         std::vector<Move> m_validMoves;
         MoveGenerator m_generator;
-        std::vector<Position> m_history;
+        std::vector<Move> m_history;
 };
 
 typedef std::shared_ptr<ChessHandler> ChessHandlerPtr;

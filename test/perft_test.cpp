@@ -17,7 +17,7 @@ TEST(PerfTest, Nodes)
         std::make_pair<int,uint64_t>(3, 8902),
         std::make_pair<int,uint64_t>(4, 197281),
         // Tests beyond depth 4 will currently fail since enpassant is not implemented
-        //std::make_pair<int,uint64_t>(5, 4865609)
+        std::make_pair<int,uint64_t>(5, 4865609)
     };
 
     for ( auto it : expected )

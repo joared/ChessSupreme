@@ -13,6 +13,7 @@ struct Move
 
     Square from;
     Square to;
+    Piece capturedPiece;
     Piece promotionPiece;
 };
 
