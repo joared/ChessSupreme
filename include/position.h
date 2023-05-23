@@ -13,16 +13,21 @@ class Position
     // NOTE: We can se the State info for dynamic allocation
     // of information that can increase efficiency of calculating
     // moves.
-    struct State
-    {
-        int rule50count = 0;
-        Square enPassantSquare = -1;
-    };
+    public:
+        struct State
+        {
+            //State(int rule50Count, Square enPSquare, Piece capturedPiece, Square capturedSquare)
+            int rule50count = 0;
+            Square enPassantSquare = -1;
+            Piece capturedPiece = Piece();
+            Square capturedSquare = -1;
+            std::string toString() const;
+        };
 
     public:
         Position();
         static Position standardPosition();
-        bool isValidPosition(); // for debugging
+        bool isValidPosition() const; // for debugging
         std::string pretty(Bitboard b=0);
 
         Color toMove() const;
@@ -40,8 +45,8 @@ class Position
         // NOTE: Doesn't work with inline, could be the compiler
         void placePiece(Piece p, Square s);
         void removePiece(Square s);
-        void makeMove(const Move& m);
-        void undoMove(const Move& m);
+        void makeMove(Move& m);
+        void undoMove(Move& m);
 
         // Methods for retrieving piece placement information
         Piece getPiece(Square s) const;
@@ -52,11 +57,11 @@ class Position
         // Some operators for conveniece
         friend bool operator==(const Position &p1, const Position &p2);
 
+        State state;
     private:
         Piece m_board[64];
         Bitboard m_piecesBB[COLOR_N][PIECE_TYPE_N];
         Color m_toMove;
-        State state;
 };
 
 bool operator==(const Position &p1, const Position &p2);

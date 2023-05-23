@@ -154,6 +154,7 @@ Bitboard pseduoMovesBB<ROOK>(Color c, Square s, const Position* p)
 
     // movesHorizontal = 0xFFULL << (rank * NORTH);
     // movesVertical = (0x0101010101010101ULL) << (file * EAST);
+    // return movesHorizontal | movesVertical;
 
     Bitboard moves;
     std::vector<Direction> directions = {NORTH, EAST, SOUTH, WEST};

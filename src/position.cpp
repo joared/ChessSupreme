@@ -45,15 +45,30 @@ Position Position::standardPosition()
     return position;
 }
 
-bool Position::isValidPosition()
+bool Position::isValidPosition() const
 {
     for (Square s=0; s<64; s++)
     {
         Piece p = getPiece(s);
-        if (!(m_piecesBB[p.color][p.pieceType] & squareBB(s)))
+        if (p.pieceType != PIECE_INVALID)
         {
-            return false;
+            if (!(m_piecesBB[p.color][p.pieceType] & squareBB(s)))
+            {
+                std::cout << "PieceBB " << pieceTypeToStr(p.pieceType, p.color) << " :\n" << m_piecesBB[p.color][p.pieceType].prettyBoard() << std::endl;
+                std::cout << "SquareBB:\n" << squareBB(s).prettyBoard() << std::endl;
+                return false;
+            }
         }
+        else
+        {
+            if( pieces() & squareBB(s) )
+            {
+                std::cout << "PieceBB NO PIECE :\n" << m_piecesBB[p.color][p.pieceType].prettyBoard() << std::endl;
+                std::cout << "SquareBB:\n" << squareBB(s).prettyBoard() << std::endl;
+                return false;
+            }
+        }
+        
     }
     return true;
 }
@@ -255,32 +270,27 @@ void Position::removePiece(Square s)
     // m_piecesBB[p.color][p.pieceType] |= -squareBB(s);
 }
 
-void Position::makeMove(const Move& m)
+void Position::makeMove(Move& m)
 {
     // m_toMove = Color(m_toMove+1);
     // if (m_toMove == COLOR_N)
     // {
     //     m_toMove = Color(0);
     // }
+    m.execute(this);
     m_toMove = (m_toMove == WHITE) ? BLACK : WHITE;
-    Piece piece = getPiece(m.from);
-    assert(piece.pieceType != PIECE_INVALID);
-    removePiece(m.from);
-    placePiece(piece, m.to);
 }
 
-void Position::undoMove(const Move& m)
+void Position::undoMove(Move& m)
 {
     // m_toMove = Color(m_toMove+1);
     // if (m_toMove == COLOR_N)
     // {
     //     m_toMove = Color(0);
     // }
+    
+    m.undo(this);
     m_toMove = (m_toMove == WHITE) ? BLACK : WHITE;
-    Piece piece = getPiece(m.to);
-    removePiece(m.to);
-    placePiece(m.capturedPiece, m.to);
-    placePiece(piece, m.from);
 }
 
 Piece Position::getPiece(Square s) const
@@ -334,4 +344,14 @@ bool operator==(const Position &p1, const Position &p2)
     // TODO: castling rights and so on... (see from fen)
 
     return true;
+}
+
+std::string Position::State::toString() const
+{
+    std::stringstream ss;
+    ss << "Rule50: " << rule50count << std::endl;
+    ss << "En passant square : " << enPassantSquare << std::endl;
+    ss << "Captured piece: " << pieceTypeToStr(capturedPiece.pieceType, capturedPiece.color) << std::endl;
+    ss << "Captured square: " << capturedSquare << std::endl;
+    return ss.str();
 }

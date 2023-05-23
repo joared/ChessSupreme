@@ -1,16 +1,18 @@
 #include "chesshandler.h"
-
-ChessHandler::ChessHandler()
-{
-    m_validMoves.reserve(256);
-    m_position = Position::standardPosition();
-    generateMoves();
-}
-
+#include <iostream>
 ChessHandler::ChessHandler(std::string fen)
 {
+    if (!fen.empty())
+    {
+        m_position = Position::fromFEN(fen);
+    }
+    else 
+    {
+        m_position = Position::standardPosition();
+    }
     m_validMoves.reserve(256);
-    m_position = Position::fromFEN(fen);
+    m_history.reserve(10000000);
+    m_stateHistory.reserve(10000000);
     generateMoves();
 }
 
@@ -29,6 +31,11 @@ const Position& ChessHandler::position() const
     return m_position;
 }
 
+const Position::State& ChessHandler::state() const
+{
+    return m_position.state;
+}
+
 std::vector<Move>& ChessHandler::validMoves()
 {
     return m_validMoves;
@@ -37,7 +44,7 @@ std::vector<Move>& ChessHandler::validMoves()
 Bitboard ChessHandler::validMoves(Square from)
 {
     Bitboard moves;
-    for (Move m : m_validMoves)
+    for (Move& m : m_validMoves)
     {
         if (from == m.from)
         {
@@ -49,7 +56,7 @@ Bitboard ChessHandler::validMoves(Square from)
 
 bool ChessHandler::isValidFrom(Square from)
 {
-    for (Move m : m_validMoves )
+    for (Move& m : m_validMoves )
     {
         if (m.from == from)
         {
@@ -59,9 +66,9 @@ bool ChessHandler::isValidFrom(Square from)
     return false;
 }
 
-bool ChessHandler::isValidMove(Move m)
+bool ChessHandler::isValidMove(const Move& m)
 {
-    for (Move validMove : m_validMoves )
+    for (Move& validMove : m_validMoves )
     {
         if ((m.from == validMove.from) && (m.to == validMove.to))
         {
@@ -71,9 +78,25 @@ bool ChessHandler::isValidMove(Move m)
     return false;
 }
 
+void ChessHandler::makeSafeMove(Move m)
+{
+    for (Move& move : m_validMoves)
+    {
+        if ((m.from == move.from) && (m.to == move.to))
+        {
+            makeMove(move);
+            return;
+        }
+    }
+    throw std::runtime_error("Move is in valid.");
+}
+
 void ChessHandler::makeMove(Move m, bool generateNewMoves)
 {
+    // TODO: the state stuff should be handled in Position
     m_history.push_back(m);
+    auto state = m_position.state;
+    m_stateHistory.push_back(state);
     m_position.makeMove(m);
     
     if (generateNewMoves)
@@ -86,9 +109,13 @@ void ChessHandler::undo(bool generateNewMoves)
 {
     if (m_history.size() > 0)
     {
-        Move& prevMove = m_history.back();
+        // TODO: the state stuff should be handled in Position
+        Move prevMove = m_history.back();
+        Position::State prevState = m_stateHistory.back();
         m_history.pop_back();
+        m_stateHistory.pop_back();
         m_position.undoMove(prevMove);
+        m_position.state = prevState;
 
         if (generateNewMoves)
         {

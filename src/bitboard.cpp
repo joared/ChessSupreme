@@ -8,7 +8,7 @@ const std::string Bitboard::prettyBitset()
   return std::bitset<64>(m_bb).to_string();
 }
 
-const std::string Bitboard::prettyBoard()
+std::string Bitboard::prettyBoard() const
 {
   /*
   Example:

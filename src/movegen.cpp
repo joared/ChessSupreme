@@ -25,11 +25,13 @@ std::vector<Move>& MoveGenerator::generateMoves(Position& p, std::vector<Move>& 
             Move& candidateMove = *it;
             
             Color toMove = p.toMove();
+            auto statePrev = p.state; // TODO: this should not be done like this
             p.makeMove(candidateMove);
             Bitboard pseudoMoves = generatePseudoMovesBB(p);
             Bitboard kingSquareBB = p.pieceTypeBB(toMove, KING);
             bool isInCheck = (kingSquareBB & pseudoMoves);
             p.undoMove(candidateMove);
+            p.state = statePrev;
 
             if (isInCheck)
             {
@@ -60,9 +62,7 @@ std::vector<Move>& MoveGenerator::generateMoves(const Position &p, std::vector<M
         while (movesBB)
         {
             Square to = movesBB.popLsb();
-            Move candidateMove(from, to);
-            candidateMove.capturedPiece = p.getPiece(to);
-            moves.push_back(candidateMove);
+            moves.push_back(Move(from, to));
         }
     }
 
@@ -72,9 +72,10 @@ std::vector<Move>& MoveGenerator::generateMoves(const Position &p, std::vector<M
 std::vector<Move>& MoveGenerator::generatePawnMoves(const Position &p, std::vector<Move> &moves, bool validateMoves)
 {
     Bitboard friendly, target, allPieces, movesBB;
+    Bitboard enPassantBB = (p.state.enPassantSquare != -1) ? squareBB(p.state.enPassantSquare) : Bitboard();
     Color c = p.toMove();
     friendly = p.pieces(c);
-    target = p.target(c);
+    target = (p.target(c) | enPassantBB);
     allPieces = friendly | target;
 
     Bitboard pawnsBB = p.pieceTypeBB(c, PAWN);
@@ -99,12 +100,12 @@ std::vector<Move>& MoveGenerator::generatePawnMoves(const Position &p, std::vect
 
     // Attacks
     Bitboard attacksBB1;
-    Bitboard fileA = 0x0101010101010101;
+    Bitboard fileA = 0x0101010101010101; // Used to mask opposite file
     attacksBB1 |= ((pawnsBB.shift(atkd1)) & ~fileA);
     attacksBB1 &= target;
 
     Bitboard attacksBB2;
-    Bitboard fileH = fileA << 7;
+    Bitboard fileH = fileA << 7; // Used to mask opposite file
     attacksBB2 |= ((pawnsBB.shift(atkd2)) & ~fileH);
     attacksBB2 &= target;
 
@@ -117,24 +118,34 @@ std::vector<Move>& MoveGenerator::generatePawnMoves(const Position &p, std::vect
     while (doublePushBB)
     {
         Square to = doublePushBB.popLsb();
-        Move move((to - d) - d, to);
-        moves.push_back(move);
+        moves.push_back(Move(to - d - d, to, DOUBLE_PUSH));
     }
 
     while (attacksBB1)
     {
         Square to = attacksBB1.popLsb();
-        Move move(to - atkd1, to);
-        move.capturedPiece = p.getPiece(move.to);
-        moves.push_back(move);
+        if (to == p.state.enPassantSquare)
+        {
+            moves.push_back(Move(to - atkd1, to, EN_PASSANT));
+        }
+        else 
+        {
+            moves.push_back(Move(to - atkd1, to));
+        }
+        
     }
 
     while (attacksBB2)
     {
         Square to = attacksBB2.popLsb();
-        Move move(to - atkd2, to);
-        move.capturedPiece = p.getPiece(move.to);
-        moves.push_back(move);
+        if (to == p.state.enPassantSquare)
+        {
+            moves.push_back(Move(to - atkd2, to, EN_PASSANT));
+        }
+        else 
+        {
+            moves.push_back(Move(to - atkd2, to));
+        }
     }
 
     return moves;

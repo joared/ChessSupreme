@@ -71,6 +71,7 @@ if(BUILD_TESTS)
     set(TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/test)
     set(TESTS 
         ${TEST_DIR}/bitboard_test.cpp
+        ${TEST_DIR}/move_test.cpp
         ${TEST_DIR}/perft_test.cpp
         ${TEST_DIR}/piece_test.cpp
         ${TEST_DIR}/position_test.cpp

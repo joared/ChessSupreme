@@ -12,16 +12,17 @@
 class ChessHandler
 {
     public:
-        ChessHandler();
-        ChessHandler(std::string fen);
+        ChessHandler(std::string fen = "");
 
         std::string pretty(Bitboard b = 0);
         Color toMove();
         const Position& position() const;
+        const Position::State& state() const;
         std::vector<Move>& validMoves();
         Bitboard validMoves(Square from);
         bool isValidFrom(Square from);
-        bool isValidMove(Move m);
+        bool isValidMove(const Move& m);
+        void makeSafeMove(Move m);
         void makeMove(Move m, bool generateNewMoves=true);
         void undo(bool generateNewMoves=true);
 
@@ -34,6 +35,7 @@ class ChessHandler
         std::vector<Move> m_validMoves;
         MoveGenerator m_generator;
         std::vector<Move> m_history;
+        std::vector<Position::State> m_stateHistory;
 };
 
 typedef std::shared_ptr<ChessHandler> ChessHandlerPtr;

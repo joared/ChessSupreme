@@ -3,13 +3,14 @@
 
 #include "bitboard.h"
 
+//#include "position.h"
 class Position; // Forward declaration
 
 #include <vector>
 
 enum PieceType : int 
 {
-    PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING, PIECE_TYPE_N, PIECE_INVALID
+    PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING, PIECE_TYPE_N, PIECE_INVALID = -1
 
 };
 

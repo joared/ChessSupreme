@@ -26,9 +26,10 @@ int main(int argc, char* argv[])
 	}
 
 	Utils::print("Welcome to ChessSupreme!");
-	
+	std::cout << chessHandler->state().toString() << std::endl;
 	while (true)
 	{
+		assert(chessHandler->position().isValidPosition());
 		auto validMoves = chessHandler->validMoves();
 		//Utils::print(chessHandler.position().pieces().prettyBoard());
 		Utils::print(chessHandler->pretty());
@@ -57,7 +58,7 @@ int main(int argc, char* argv[])
 			}
 			else if (fromStr == "m")
 			{
-				for (Move m : chessHandler->validMoves())
+				for (Move& m : chessHandler->validMoves())
 				{
 					std::cout << m.toString() << std::endl;
 				}
@@ -105,8 +106,10 @@ int main(int argc, char* argv[])
 		}
 		if (chessHandler->isValidMove(move))
 		{
-			chessHandler->makeMove(move);
+			chessHandler->makeSafeMove(move);
+			std::cout << move.toString() << std::endl;
 		}
+		std::cout << chessHandler->state().toString() << std::endl;
 		
 	}
 }

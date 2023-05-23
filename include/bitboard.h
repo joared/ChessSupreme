@@ -51,7 +51,7 @@ class Bitboard
 	public:
 		constexpr Bitboard(uint64_t b = 0): m_bb(b) {};
 		const std::string prettyBitset();
-		const std::string prettyBoard();
+		std::string prettyBoard() const;
 
 		// conversion operator to enable standard operations on bitboard
 		// "const" is needed for GTest to compile
